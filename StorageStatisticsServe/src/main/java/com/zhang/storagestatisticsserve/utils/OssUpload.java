@@ -36,8 +36,8 @@ public class OssUpload {
         // 从环境变量中获取RAM用户的访问密钥（AccessKey ID和AccessKey Secret）。
 //        String accessKeyId = System.getenv("OSS_ACCESS_KEY_ID");
 //        String accessKeySecret = System.getenv("OSS_ACCESS_KEY_SECRET");
-        String accessKeyId = "LTAI5tGYZf6KnHypiiYXgwh4";
-        String accessKeySecret = "3vMJKNJ0aELx58R1FamnQt3jvbWQA7";
+        String accessKeyId = "*************";
+        String accessKeySecret = "*****************";
         // 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。
         CredentialsProvider credentialsProvider = new DefaultCredentialProvider(accessKeyId, accessKeySecret);
 
