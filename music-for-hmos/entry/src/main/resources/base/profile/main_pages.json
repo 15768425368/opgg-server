@@ -1,0 +1,9 @@
+{
+  "src": [
+    "pages/Index",
+    "pages/views/SongListDetails",
+    "pages/views/DetailsOfVideoWorks",
+    "pages/views/WorkSearchTransferPage",
+    "pages/views/AggregateSearch"
+  ]
+}

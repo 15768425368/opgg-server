@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhang.storagestatisticsserve.mapper.WxResMapper">
+
+    <resultMap id="BaseResultMap" type="com.zhang.storagestatisticsserve.entity.WxRes" >
+        <result column="id" property="id" />
+        <result column="container_id" property="containerId" />
+        <result column="res_position" property="resPosition" />
+        <result column="cover" property="cover" />
+        <result column="name" property="name" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+                container_id,
+                res_position,
+                cover,
+                name,
+                create_time,
+                update_time
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.zhang.storagestatisticsserve.entity.WxRes">
+        INSERT INTO wx_res
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="null != containerId ">
+                container_id,
+            </if>
+            <if test="null != resPosition and '' != resPosition">
+                res_position,
+            </if>
+            <if test="null != cover and '' != cover">
+                cover,
+            </if>
+            <if test="null != name and '' != name">
+                name,
+            </if>
+            <if test="null != createTime ">
+                create_time,
+            </if>
+            <if test="null != updateTime ">
+                update_time
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="null != containerId ">
+                #{containerId},
+            </if>
+            <if test="null != resPosition and '' != resPosition">
+                #{resPosition},
+            </if>
+            <if test="null != cover and '' != cover">
+                #{cover},
+            </if>
+            <if test="null != name and '' != name">
+                #{name},
+            </if>
+            <if test="null != createTime ">
+                #{createTime},
+            </if>
+            <if test="null != updateTime ">
+                #{updateTime}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" >
+        DELETE FROM wx_res
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.zhang.storagestatisticsserve.entity.WxRes">
+        UPDATE wx_res
+        <set>
+            <if test="null != containerId ">container_id = #{containerId},</if>
+            <if test="null != resPosition and '' != resPosition">res_position = #{resPosition},</if>
+            <if test="null != cover and '' != cover">cover = #{cover},</if>
+            <if test="null != name and '' != name">name = #{name},</if>
+            <if test="null != createTime ">create_time = #{createTime},</if>
+            <if test="null != updateTime ">update_time = #{updateTime}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="load" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_res
+        WHERE id = #{id}
+    </select>
+
+    <select id="pageList" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_res
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="pageListCount" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM wx_res
+    </select>
+
+    <select id="getResByContainerId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_res
+        WHERE container_id = #{id}
+    </select>
+
+    <select id="getResByOpenid" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_res
+        WHERE openid = #{openid}
+        <if test="name != null and name != ''">
+            AND name LIKE CONCAT('%', #{name}, '%')
+        </if>
+    </select>
+</mapper>

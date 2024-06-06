@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhang.storagestatisticsserve.mapper.WxRoomUserMapper">
+
+    <resultMap id="BaseResultMap" type="com.zhang.storagestatisticsserve.entity.WxRoomUser" >
+        <result column="id" property="id" />
+        <result column="user_open_id" property="userOpenId" />
+        <result column="room_id" property="roomId" />
+        <result column="is_edit" property="isEdit" />
+        <result column="is_delete" property="isDelete" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+                user_open_id,
+                room_id,
+                is_edit,
+                is_delete,
+                create_time,
+                update_time
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.zhang.storagestatisticsserve.entity.WxRoomUser">
+        INSERT INTO wx_room_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="null != userOpenId and '' != userOpenId">
+                user_open_id,
+            </if>
+            <if test="null != roomId ">
+                room_id,
+            </if>
+            <if test="null != isEdit ">
+                is_edit,
+            </if>
+            <if test="null != isDelete ">
+                is_delete,
+            </if>
+            <if test="null != createTime ">
+                create_time,
+            </if>
+            <if test="null != updateTime ">
+                update_time
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="null != userOpenId and '' != userOpenId">
+                #{userOpenId},
+            </if>
+            <if test="null != roomId ">
+                #{roomId},
+            </if>
+            <if test="null != isEdit ">
+                #{isEdit},
+            </if>
+            <if test="null != isDelete ">
+                #{isDelete},
+            </if>
+            <if test="null != createTime ">
+                #{createTime},
+            </if>
+            <if test="null != updateTime ">
+                #{updateTime}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" >
+        DELETE FROM wx_room_user
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.zhang.storagestatisticsserve.entity.WxRoomUser">
+        UPDATE wx_room_user
+        <set>
+            <if test="null != userOpenId and '' != userOpenId">user_open_id = #{userOpenId},</if>
+            <if test="null != roomId ">room_id = #{roomId},</if>
+            <if test="null != isEdit ">is_edit = #{isEdit},</if>
+            <if test="null != isDelete ">is_delete = #{isDelete},</if>
+            <if test="null != createTime ">create_time = #{createTime},</if>
+            <if test="null != updateTime ">update_time = #{updateTime}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="load" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_room_user
+        WHERE id = #{id}
+    </select>
+
+    <select id="pageList" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_room_user
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="pageListCount" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM wx_room_user
+    </select>
+
+
+    <select id="getListByOpenId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_room_user
+        WHERE user_open_id = #{openid}
+    </select>
+
+
+    <select id="loadByOpenId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_room_user
+        WHERE user_open_id = #{openid}
+    </select>
+
+
+    <select id="loadByOpenIdAndId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_room_user
+        WHERE user_open_id = #{openid}
+        AND room_id = #{roomId}
+    </select>
+
+    <select id="getListByRoomId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_room_user
+        WHERE room_id = #{roomId}
+    </select>
+
+    <delete id="deleteItems" parameterType="com.zhang.storagestatisticsserve.entity.WxRoomUser">
+        DELETE FROM wx_room_user
+        WHERE id IN
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

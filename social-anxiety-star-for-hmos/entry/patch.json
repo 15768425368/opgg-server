@@ -1,0 +1,11 @@
+{
+  "app": {
+    "bundleName": "com.zxl.socialanxietystar",
+    "patchVersionCode": 2000161,
+    "versionCode": 1000000
+  },
+  "module": {
+    "name": "entry",
+    "type": "hotreload"
+  }
+}

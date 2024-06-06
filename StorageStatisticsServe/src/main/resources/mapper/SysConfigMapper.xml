@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhang.storagestatisticsserve.mapper.SysConfigMapper">
+
+    <resultMap id="BaseResultMap" type="com.zhang.storagestatisticsserve.entity.SysConfig" >
+        <result column="id" property="id" />
+        <result column="version" property="version" />
+        <result column="state" property="state" />
+        <result column="preview_time" property="previewTime" />
+        <result column="stop_reason" property="stopReason" />
+        <result column="force_update" property="forceUpdate" />
+        <result column="update_tips" property="updateTips" />
+        <result column="about_us" property="aboutUs" />
+        <result column="customer_service" property="customerService" />
+        <result column="update_url" property="updateUrl" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+                version,
+                state,
+                preview_time,
+                stop_reason,
+                force_update,
+                update_tips,
+                about_us,
+                customer_service,
+                update_url,
+                create_time,
+                update_time
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.zhang.storagestatisticsserve.entity.SysConfig">
+        INSERT INTO wx_sys_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="null != version and '' != version">
+                version,
+            </if>
+            <if test="null != state ">
+                state,
+            </if>
+            <if test="null != previewTime ">
+                preview_time,
+            </if>
+            <if test="null != stopReason and '' != stopReason">
+                stop_reason,
+            </if>
+            <if test="null != forceUpdate ">
+                force_update,
+            </if>
+            <if test="null != updateTips and '' != updateTips">
+                update_tips,
+            </if>
+            <if test="null != aboutUs and '' != aboutUs">
+                about_us,
+            </if>
+            <if test="null != customerService and '' != customerService">
+                customer_service,
+            </if>
+            <if test="null != updateUrl and '' != updateUrl">
+                update_url,
+            </if>
+            <if test="null != createTime ">
+                create_time,
+            </if>
+            <if test="null != updateTime ">
+                update_time
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="null != version and '' != version">
+                #{version},
+            </if>
+            <if test="null != state ">
+                #{state},
+            </if>
+            <if test="null != previewTime ">
+                #{previewTime},
+            </if>
+            <if test="null != stopReason and '' != stopReason">
+                #{stopReason},
+            </if>
+            <if test="null != forceUpdate ">
+                #{forceUpdate},
+            </if>
+            <if test="null != updateTips and '' != updateTips">
+                #{updateTips},
+            </if>
+            <if test="null != aboutUs and '' != aboutUs">
+                #{aboutUs},
+            </if>
+            <if test="null != customerService and '' != customerService">
+                #{customerService},
+            </if>
+            <if test="null != updateUrl and '' != updateUrl">
+                #{updateUrl},
+            </if>
+            <if test="null != createTime ">
+                #{createTime},
+            </if>
+            <if test="null != updateTime ">
+                #{updateTime}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" >
+        DELETE FROM wx_sys_config
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.zhang.storagestatisticsserve.entity.SysConfig">
+        UPDATE wx_sys_config
+        <set>
+            <if test="null != version and '' != version">version = #{version},</if>
+            <if test="null != state ">state = #{state},</if>
+            <if test="null != previewTime ">preview_time = #{previewTime},</if>
+            <if test="null != stopReason and '' != stopReason">stop_reason = #{stopReason},</if>
+            <if test="null != forceUpdate ">force_update = #{forceUpdate},</if>
+            <if test="null != updateTips and '' != updateTips">update_tips = #{updateTips},</if>
+            <if test="null != aboutUs and '' != aboutUs">about_us = #{aboutUs},</if>
+            <if test="null != customerService and '' != customerService">customer_service = #{customerService},</if>
+            <if test="null != updateUrl and '' != updateUrl">update_url = #{updateUrl},</if>
+            <if test="null != createTime ">create_time = #{createTime},</if>
+            <if test="null != updateTime ">update_time = #{updateTime}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="load" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_sys_config
+        WHERE id = #{id}
+    </select>
+
+    <select id="pageList" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_sys_config
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="pageListCount" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM wx_sys_config
+    </select>
+
+</mapper>

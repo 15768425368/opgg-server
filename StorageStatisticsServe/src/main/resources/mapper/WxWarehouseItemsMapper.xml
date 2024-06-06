@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhang.storagestatisticsserve.mapper.WxWarehouseItemsMapper">
+
+    <resultMap id="BaseResultMap" type="com.zhang.storagestatisticsserve.entity.WxWarehouseItems" >
+        <result column="id" property="id" />
+        <result column="pid" property="pid" />
+        <result column="open_id" property="openId" />
+        <result column="state" property="state" />
+        <result column="name" property="name" />
+        <result column="cover" property="cover" />
+        <result column="place" property="place" />
+        <result column="is_shared" property="isShared" />
+        <result column="create_user" property="createUser" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+                pid,
+                open_id,
+                state,
+                name,
+                cover,
+            place,
+                is_shared,
+                create_user,
+                create_time,
+                update_time
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.zhang.storagestatisticsserve.entity.WxWarehouseItems">
+        INSERT INTO wx_warehouse_items
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="null != pid and '' != pid">
+                pid,
+            </if>
+            <if test="null != openId and '' != openId">
+                open_id,
+            </if>
+            <if test="null != state and '' != state">
+                state,
+            </if>
+            <if test="null != name and '' != name">
+                name,
+            </if>
+            <if test="null != cover and '' != cover">
+                cover,
+            </if>
+            <if test="null != place and '' != place">
+                place,
+            </if>
+            <if test="null != isShared and '' != isShared">
+                is_shared,
+            </if>
+            <if test="null != createUser and '' != createUser">
+                create_user,
+            </if>
+            <if test="null != createTime">
+                create_time,
+            </if>
+            <if test="null != updateTime">
+                update_time
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="null != pid and '' != pid">
+                #{pid},
+            </if>
+            <if test="null != openId and '' != openId">
+                #{openId},
+            </if>
+            <if test="null != state and '' != state">
+                #{state},
+            </if>
+            <if test="null != name and '' != name">
+                #{name},
+            </if>
+            <if test="null != cover and '' != cover">
+                #{cover},
+            </if>
+            <if test="null != place and '' != place">
+                #{place},
+            </if>
+            <if test="null != isShared and '' != isShared">
+                #{isShared},
+            </if>
+            <if test="null != createUser and '' != createUser">
+                #{createUser},
+            </if>
+            <if test="null != createTime">
+                #{createTime},
+            </if>
+            <if test="null != updateTime">
+                #{updateTime}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" >
+        DELETE FROM wx_warehouse_items
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.zhang.storagestatisticsserve.entity.WxWarehouseItems">
+        UPDATE wx_warehouse_items
+        <set>
+            <if test="null != pid and '' != pid">pid = #{pid},</if>
+            <if test="null != openId and '' != openId">open_id = #{openId},</if>
+            <if test="null != state and '' != state">state = #{state},</if>
+            <if test="null != name and '' != name">name = #{name},</if>
+            <if test="null != cover and '' != cover">cover = #{cover},</if>
+            <if test="null != place and '' != place">place = #{place},</if>
+            <if test="null != isShared and '' != isShared">is_shared = #{isShared},</if>
+            <if test="null != createUser and '' != createUser">create_user = #{createUser},</if>
+            <if test="null != createTime">create_time = #{createTime},</if>
+            <if test="null != updateTime">update_time = #{updateTime}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="load" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_warehouse_items
+        WHERE id = #{id}
+    </select>
+
+    <select id="pageList" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_warehouse_items
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="pageListCount" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM wx_warehouse_items
+    </select>
+
+
+    <select id="getListByOpenId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_warehouse_items
+        WHERE open_id = #{openId}
+          AND state = #{state}
+        <if test="name != '' and name != null">
+            AND name LIKE CONCAT('%', #{name}, '%')
+        </if>
+    </select>
+
+    <select id="getListByPid" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_warehouse_items
+        WHERE state = #{state}
+          <if test="openid != '' and openid != null">
+            AND  open_id = #{openid}
+          </if>
+        AND pid = #{pid}
+    </select>
+
+
+    <select id="getRecycleBinByOpenId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_warehouse_items
+        WHERE open_id = #{openId}
+        AND state = #{state}
+    </select>
+
+    <select id="getListForPidPage" resultMap="BaseResultMap" parameterType="com.zhang.storagestatisticsserve.entity.WxWarehouseItems">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_warehouse_items
+        WHERE open_id in
+        <foreach collection="openIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        <if test="isShared != '' and isShared != null">
+            AND is_shared = #{isShared}
+        </if>
+        AND pid is null
+        AND state = #{state}
+        LIMIT #{pageNumber}, #{pageSize}
+    </select>
+
+    <select id="getListForPidPageName" resultMap="BaseResultMap" parameterType="com.zhang.storagestatisticsserve.entity.WxWarehouseItems">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_warehouse_items
+        WHERE open_id in
+        <foreach collection="openIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        <if test="isShared != '' and isShared != null">
+            AND is_shared = #{isShared}
+        </if>
+        AND state = #{state}
+        <if test="name != '' and name != null">
+            AND name LIKE CONCAT('%', #{name}, '%')
+        </if>
+    </select>
+
+    <select id="getListForPidCount" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM wx_warehouse_items
+        WHERE open_id in
+        <foreach collection="openIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        <if test="isShared != '' and isShared != null">
+            AND is_shared = #{isShared}
+        </if>
+        <if test="pid == null">
+            AND pid is null
+        </if>
+        AND state = #{state}
+        <if test="name != '' and name != null">
+            AND name LIKE CONCAT('%', #{name}, '%')
+        </if>
+        Order By id
+    </select>
+</mapper>

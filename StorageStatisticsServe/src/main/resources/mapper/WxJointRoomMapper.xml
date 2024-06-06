@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhang.storagestatisticsserve.mapper.WxJointRoomMapper">
+
+    <resultMap id="BaseResultMap" type="com.zhang.storagestatisticsserve.entity.WxJointRoom" >
+        <result column="id" property="id" />
+        <result column="room_name" property="roomName" />
+        <result column="host_user_open_id" property="hostUserOpenId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+                room_name,
+                host_user_open_id,
+                create_time,
+                update_time
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.zhang.storagestatisticsserve.entity.WxJointRoom">
+        INSERT INTO wx_joint_room
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="null != roomName and '' != roomName">
+                room_name,
+            </if>
+            <if test="null != hostUserOpenId and '' != hostUserOpenId">
+                host_user_open_id,
+            </if>
+            <if test="null != createTime ">
+                create_time,
+            </if>
+            <if test="null != updateTime ">
+                update_time
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="null != roomName and '' != roomName">
+                #{roomName},
+            </if>
+            <if test="null != hostUserOpenId and '' != hostUserOpenId">
+                #{hostUserOpenId},
+            </if>
+            <if test="null != createTime ">
+                #{createTime},
+            </if>
+            <if test="null != updateTime ">
+                #{updateTime}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" >
+        DELETE FROM wx_joint_room
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.zhang.storagestatisticsserve.entity.WxJointRoom">
+        UPDATE wx_joint_room
+        <set>
+            <if test="null != roomName and '' != roomName">room_name = #{roomName},</if>
+            <if test="null != hostUserOpenId and '' != hostUserOpenId">host_user_open_id = #{hostUserOpenId},</if>
+            <if test="null != createTime ">create_time = #{createTime},</if>
+            <if test="null != updateTime ">update_time = #{updateTime}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="load" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_joint_room
+        WHERE id = #{id}
+    </select>
+
+    <select id="pageList" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_joint_room
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="pageListCount" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM wx_joint_room
+    </select>
+
+
+    <select id="getRoomListByOpenId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_joint_room
+        WHERE host_user_open_id = #{openid}
+    </select>
+
+</mapper>

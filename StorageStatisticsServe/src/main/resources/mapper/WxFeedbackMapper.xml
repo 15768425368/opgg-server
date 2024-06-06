@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhang.storagestatisticsserve.mapper.WxFeedbackMapper">
+
+    <resultMap id="BaseResultMap" type="com.zhang.storagestatisticsserve.entity.WxFeedback" >
+        <result column="id" property="id" />
+        <result column="content" property="content" />
+        <result column="openid" property="openid" />
+        <result column="phone" property="phone" />
+        <result column="create_time" property="createTime" />
+        <result column="upload_time" property="uploadTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+                content,
+                openid,
+                phone,
+                create_time,
+                upload_time
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.zhang.storagestatisticsserve.entity.WxFeedback">
+        INSERT INTO wx_feedback
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="null != content and '' != content">
+                content,
+            </if>
+            <if test="null != openid and '' != openid">
+                openid,
+            </if>
+            <if test="null != phone and '' != phone">
+                phone,
+            </if>
+            <if test="null != createTime ">
+                create_time,
+            </if>
+            <if test="null != uploadTime ">
+                upload_time
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="null != content and '' != content">
+                #{content},
+            </if>
+            <if test="null != openid and '' != openid">
+                #{openid},
+            </if>
+            <if test="null != phone and '' != phone">
+                #{phone},
+            </if>
+            <if test="null != createTime ">
+                #{createTime},
+            </if>
+            <if test="null != uploadTime ">
+                #{uploadTime}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" >
+        DELETE FROM wx_feedback
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.zhang.storagestatisticsserve.entity.WxFeedback">
+        UPDATE wx_feedback
+        <set>
+            <if test="null != content and '' != content">content = #{content},</if>
+            <if test="null != openid and '' != openid">openid = #{openid},</if>
+            <if test="null != phone and '' != phone">phone = #{phone},</if>
+            <if test="null != createTime ">create_time = #{createTime},</if>
+            <if test="null != uploadTime ">upload_time = #{uploadTime}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="load" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_feedback
+        WHERE id = #{id}
+    </select>
+
+    <select id="pageList" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM wx_feedback
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="pageListCount" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM wx_feedback
+    </select>
+
+</mapper>

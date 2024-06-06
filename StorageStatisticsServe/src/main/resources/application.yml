@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: storage-statistics-serve
+
+  datasource:
+    url: ************************************************************* #数据库的连接地址，包括数据库的主机地址、端口号和数据库名称
+    username: root #数据库的用户名
+    password: ********** #数据库的密码
+    driver-class-name: com.mysql.cj.jdbc.Driver #数据库驱动的类名，这里是 MySQL 的驱动类名
+    hikari: # Hikari 连接池的相关参数，例如连接超时时间、最大连接数、最小空闲连接数等
+      connection-timeout: 30000
+      maximum-pool-size: 10
+      minimum-idle: 5
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      location: /tmp
+
+server:
+  port: 8090
+
+logging:
+  level:
+    root: info
+
+mybatis:
+  mapper-locations: classpath*:mapper/*Mapper.xml
